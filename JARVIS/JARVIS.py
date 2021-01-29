@@ -9,7 +9,7 @@ JARVIS:
 """
 
 # import modules
-from datetime import datetime  # datetime module supplies classes for manipulating dates and times
+import datetime  # datetime module supplies classes for manipulating dates and times
 import subprocess  # subprocess module allows you to spawn new processes
 # master
 import pyjokes
@@ -31,7 +31,7 @@ import webbrowser
 # initialisation
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[0].id)
+engine.setProperty('voice', voices[1].id)
 engine.setProperty('rate', 150)
 
 def speak_news():
@@ -61,6 +61,17 @@ def sendEmail(to, content):
 # obtain audio from the microphone
 r = sr.Recognizer()
 with sr.Microphone() as source:
+    hour = int(datetime.datetime.now().hour)
+    if hour>=0 and hour<12:
+        engine.say("Good Morning!")
+
+    elif hour>=12 and hour<18:
+        engine.say("Good Afternoon!")
+
+    else:
+        engine.say("Good Evening!")
+
+    engine.say("I am Your virtual assistant. Please tell me how may I help you")
     print('[JARVIS]:' + "Say something")
     engine.say("Say something")
     engine.runAndWait()
@@ -102,7 +113,6 @@ class Jarvis:
         Later on this can also be used by the user itself to add or update their preferred apps.
         '''
         _dict = dict(
-            time=datetime.now(),
             notepad='Notepad.exe',
             calculator='calc.exe',
             stickynot='StickyNot.exe',
